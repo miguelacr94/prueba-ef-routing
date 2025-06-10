@@ -1,0 +1,46 @@
+name: CI/CD Pipeline for React Native
+
+on:
+  push:
+    branches:
+      - main  # Ejecutar en push a la rama principal
+  pull_request:
+    branches:
+      - main  # Ejecutar en pull requests hacia la rama principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    # Paso 1: Checkout del código
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Paso 2: Configuración de Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Especifica la versión de Node.js que usas
+
+    # Paso 3: Instalación de dependencias
+    - name: Install dependencies
+      run: |
+        npm install
+        npx expo install
+
+    # Paso 4: Ejecución de pruebas unitarias
+    - name: Run Jest tests
+      run: npm test
+
+    # Paso 5: Generación del APK (Android) con Expo
+    - name: Build APK (Android)
+      run: |
+        npx expo build:android -t apk --no-wait  # Construcción del APK
+
+    # Paso 6: Subir el APK generado como artefacto
+    - name: Upload APK as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-app-apk
+        path: ./dist/*.apk  # Ubicación donde se genera el APK (modifica según sea necesario)
