@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Launch } from "../../types/launchTypes";
 import { launchService } from "../../services/launch-service";
 
-const useLaunch = () => {
+const usePastLaunch = () => {
   const {
     isLoading: isLoadingLaunch,
     refetch,
@@ -13,7 +13,13 @@ const useLaunch = () => {
     queryKey: ["get-past-launches"],
     queryFn: async () => {
       try {
-        return await launchService.getPastLaunches();
+        const allLaunches = await launchService.getPastLaunches();
+        const currentDate = new Date();
+        
+        // Filtrar solo lanzamientos pasados (date_utc menor a la fecha actual)
+        return allLaunches.filter(launch => 
+          new Date(launch.date_utc) < currentDate
+        );
       } catch (error) {
         throw new Error(
           error instanceof Error ? error.message : "Failed to fetch launches"
@@ -32,4 +38,4 @@ const useLaunch = () => {
   };
 };
 
-export default useLaunch;
+export default usePastLaunch;
