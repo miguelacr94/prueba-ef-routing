@@ -13,14 +13,12 @@ const useNextLaunch = () => {
     queryKey: ['get-next-launches'],
     queryFn: async () => {
       try {
-        const allLaunches = await launchService.getPastLaunches();
+        const allLaunches = await launchService.getNextLaunches();
         const currentDate = new Date();
 
         const upcoming = allLaunches.filter((launch) => new Date(launch.date_utc) > currentDate);
 
-        return upcoming.sort(
-          (a, b) => new Date(a.date_utc).getTime() - new Date(b.date_utc).getTime()
-        );
+        return upcoming;
       } catch (error) {
         throw new Error(
           error instanceof Error ? error.message : 'Failed to fetch upcoming launches'
@@ -32,7 +30,7 @@ const useNextLaunch = () => {
 
   return {
     isLoadingLaunch,
-    launchData: launchData || [], // Asegurar array vacío si es undefined
+    launchData: launchData || [],
     isLaunchError,
     launchError,
     refetch,

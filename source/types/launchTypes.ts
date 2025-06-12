@@ -58,15 +58,15 @@ export interface Launch {
   static_fire_date_unix: number | null;
   net: boolean;
   window: number;
-  rocket: string;
+  rocket: Rocket; // Objeto completo
   success: boolean;
   failures: Failure[];
   details: string | null;
-  crew: string[];
-  ships: string[];
-  capsules: string[];
-  payloads: string[];
-  launchpad: string;
+  crew: string[]; // IDs
+  ships: string[]; // IDs
+  capsules: string[]; // IDs
+  payloads: string[]; // IDs
+  launchpad: Launchpad; // Objeto completo
   flight_number: number;
   name: string;
   date_utc: string;
@@ -78,5 +78,111 @@ export interface Launch {
   auto_update: boolean;
   tbd: boolean;
   launch_library_id: string | null;
+  id: string;
+}
+
+export interface Rocket {
+  height: Dimension;
+  diameter: Dimension;
+  mass: Mass;
+  first_stage: Stage;
+  second_stage: SecondStage;
+  engines: Engines;
+  landing_legs: LandingLegs;
+  name: string;
+  type: string;
+  active: boolean;
+  stages: number;
+  boosters: number;
+  cost_per_launch: number;
+  success_rate_pct: number;
+  first_flight: string;
+  country: string;
+  company: string;
+  payload_weights: PayloadWeight[];
+  flickr_images: string[];
+  wikipedia: string;
+  description: string;
+  id: string;
+}
+
+export interface Dimension {
+  meters: number;
+  feet: number;
+}
+
+export interface Mass {
+  kg: number;
+  lb: number;
+}
+
+export interface Stage {
+  thrust_sea_level: Thrust;
+  thrust_vacuum: Thrust;
+  reusable: boolean;
+  engines: number;
+  fuel_amount_tons: number;
+  burn_time_sec: number;
+}
+
+export interface SecondStage {
+  thrust: Thrust;
+  reusable: boolean;
+  engines: number;
+  fuel_amount_tons: number;
+  burn_time_sec: number;
+}
+
+export interface Engines {
+  isp: {
+    sea_level: number;
+    vacuum: number;
+  };
+  thrust_sea_level: Thrust;
+  thrust_vacuum: Thrust;
+  number: number;
+  type: string;
+  version: string;
+  layout: string;
+  engine_loss_max: number;
+  propellant_1: string;
+  propellant_2: string;
+  thrust_to_weight: number;
+}
+
+export interface Thrust {
+  kN: number;
+  lbf: number;
+}
+
+export interface LandingLegs {
+  number: number;
+  material: string;
+}
+
+export interface PayloadWeight {
+  id: string;
+  name: string;
+  kg: number;
+  lb: number;
+}
+
+export interface Launchpad {
+  images: {
+    large: string[];
+  };
+  name: string;
+  full_name: string;
+  status: string;
+  locality: string;
+  region: string;
+  timezone: string;
+  latitude: number;
+  longitude: number;
+  launch_attempts: number;
+  launch_successes: number;
+  rockets: string[]; 
+  launches: string[]; 
+  details: string;
   id: string;
 }

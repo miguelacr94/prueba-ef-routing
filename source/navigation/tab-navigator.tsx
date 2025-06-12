@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PastLaunchScreen from '../screens/launch/past-launch/past-launch-screen';
 import { RootStackParamList } from '../types/navigationType';
+import NextLaunchScreen from 'source/screens/launch/next-launch/next-launch-screen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -59,18 +60,18 @@ export function BottomTabNavigator() {
       <Tab.Screen
         name="LaunchPastScreen"
         options={{ title: 'Pasados', animation: 'fade' }}
-        component={LaunchPastStack}
+        component={PastLaunchStack}
       />
       <Tab.Screen
         name="RequestScreen"
         options={{ title: 'Próximos', animation: 'fade' }}
-        component={LaunchPastStack}
+        component={NextLaunchStack}
       />
     </Tab.Navigator>
   );
 }
 
-const LaunchPastStack = () => {
+const PastLaunchStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -91,6 +92,40 @@ const LaunchPastStack = () => {
         name="LaunchPastScreen"
         component={PastLaunchScreen}
         options={{ title: 'Lanzamientos' }}
+      />
+      {/* <Stack.Screen
+        options={{
+          title: "Destalle de past",
+          headerLeft: () => <BackScreen />, // Back solo en detalle
+        }}
+        name="RequestDetailScreen"
+        component={RequestDetailScreen}
+      /> */}
+    </Stack.Navigator>
+  );
+};
+
+const NextLaunchStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerRight: () => null,
+        headerLeft: () => null,
+        headerStyle: {
+          backgroundColor: '#e25b24',
+          height: Platform.OS === 'android' ? 80 : 120,
+          shadowColor: 'transparent',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontFamily: 'Poppins-medium',
+        },
+      }}>
+      <Stack.Screen
+        name="LaunchFutureScreen"
+        component={NextLaunchScreen}
+        options={{ title: 'Próximos' }}
       />
       {/* <Stack.Screen
         options={{

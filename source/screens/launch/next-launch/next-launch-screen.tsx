@@ -1,11 +1,11 @@
 import LaunchCard from 'components/launch/launch-card';
-import React from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, Button } from 'react-native';
+import useNextLaunch from 'source/hooks/query/use-next-launch';
 import useLaunch from 'source/hooks/query/use-past-launch';
 import type { Launch } from 'source/types/launchTypes';
 
-const PastLaunchScreen = () => {
-  const { launchData, isLoadingLaunch, isLaunchError, launchError } = useLaunch();
+const NextLaunchScreen = () => {
+  const { launchData, isLoadingLaunch, isLaunchError, launchError, refetch } = useNextLaunch();
 
   if (isLoadingLaunch) {
     return (
@@ -41,7 +41,7 @@ const PastLaunchScreen = () => {
         keyExtractor={(item) => item.id}
         ListHeaderComponent={
           <View className="mb-6 px-4 pt-6">
-            <Text className="text-3xl font-bold text-white">Historial de Lanzamientos</Text>
+            <Text className="text-3xl font-bold text-white">Historial de Lanzamientos pasados</Text>
             <Text className="mt-1 text-sm text-gray-400">
               {launchData.length} misiones registradas
             </Text>
@@ -54,4 +54,4 @@ const PastLaunchScreen = () => {
   );
 };
 
-export default PastLaunchScreen;
+export default NextLaunchScreen;

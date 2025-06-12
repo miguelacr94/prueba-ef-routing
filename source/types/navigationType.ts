@@ -2,6 +2,7 @@ export type RootStackParamList = {
   SplashScreen: undefined;
   BaseHome: undefined;
   LaunchPastScreen: undefined;
+  LaunchFutureScreen: undefined;
 
   // ... otras rutas
   RequestDetailScreen: {

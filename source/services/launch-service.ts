@@ -5,7 +5,32 @@ export const launchService = {
   getPastLaunches: async (): Promise<Launch[]> => {
     try {
       const response = await apiClient.get<Launch[]>('/launches');
-      return response.data.slice(0, 20);
+      const currentDate = new Date();
+
+      const pastLaunches = response.data.filter((launch) => {
+        return !launch.upcoming && new Date(launch.date_utc) < currentDate;
+      });
+
+      return pastLaunches.sort(
+        (a, b) => new Date(b.date_utc).getTime() - new Date(a.date_utc).getTime()
+      );
+    } catch (error) {
+      console.error('Error fetching past launches:', error);
+      throw error;
+    }
+  },
+  getNextLaunches: async (): Promise<Launch[]> => {
+    try {
+      const response = await apiClient.get<Launch[]>('/launches');
+      const currentDate = new Date();
+      console.log('next', response);
+      const pastLaunches = response.data.filter((launch) => {
+        return !launch.upcoming && new Date(launch.date_utc) > currentDate;
+      });
+
+      return pastLaunches.sort(
+        (a, b) => new Date(b.date_utc).getTime() - new Date(a.date_utc).getTime()
+      );
     } catch (error) {
       console.error('Error fetching past launches:', error);
       throw error;
