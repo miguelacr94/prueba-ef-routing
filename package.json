@@ -20,6 +20,7 @@
     "nativewind": "latest",
     "react": "19.0.0",
     "react-native": "0.79.3",
+    "react-native-actions-sheet": "^0.9.7",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0"
   },

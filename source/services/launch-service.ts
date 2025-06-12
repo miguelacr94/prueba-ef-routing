@@ -4,16 +4,8 @@ import { Launch } from '../types/launchTypes';
 export const launchService = {
   getPastLaunches: async (): Promise<Launch[]> => {
     try {
-      const response = await apiClient.get<Launch[]>('/launches');
-      const currentDate = new Date();
-
-      const pastLaunches = response.data.filter((launch) => {
-        return !launch.upcoming && new Date(launch.date_utc) < currentDate;
-      });
-
-      return pastLaunches.sort(
-        (a, b) => new Date(b.date_utc).getTime() - new Date(a.date_utc).getTime()
-      );
+      const response = await apiClient.get<Launch[]>('/launches/past');
+      return response.data;
     } catch (error) {
       console.error('Error fetching past launches:', error);
       throw error;
@@ -21,16 +13,18 @@ export const launchService = {
   },
   getNextLaunches: async (): Promise<Launch[]> => {
     try {
-      const response = await apiClient.get<Launch[]>('/launches');
-      const currentDate = new Date();
-      console.log('next', response);
-      const pastLaunches = response.data.filter((launch) => {
-        return !launch.upcoming && new Date(launch.date_utc) > currentDate;
-      });
+      const response = await apiClient.get<Launch[]>('/launches/next');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching past launches:', error);
+      throw error;
+    }
+  },
 
-      return pastLaunches.sort(
-        (a, b) => new Date(b.date_utc).getTime() - new Date(a.date_utc).getTime()
-      );
+  getAllLaunches: async (): Promise<Launch[]> => {
+    try {
+      const response = await apiClient.get<Launch[]>('/launches');
+      return response.data;
     } catch (error) {
       console.error('Error fetching past launches:', error);
       throw error;

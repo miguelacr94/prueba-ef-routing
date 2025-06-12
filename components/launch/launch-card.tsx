@@ -1,10 +1,25 @@
-import React from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Launch } from 'source/types/launchTypes';
+import { RootStackParamList } from 'source/types/navigationType';
 
 const LaunchCard = ({ item }: { item: Launch }) => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const handleGoToLaunchDetails = () => {
+    navigation.dispatch(
+      CommonActions.navigate({
+        name: 'LaunchDetailScreen',
+        params: {
+          launchData: item,
+        },
+      })
+    );
+  };
+
   return (
-    <TouchableOpacity activeOpacity={0.9}>
+    <TouchableOpacity onPress={handleGoToLaunchDetails} activeOpacity={0.9}>
       <View className="mx-4 mb-6 overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800 to-gray-900 shadow-2xl">
         {/* Barra de estado superior */}
         <View className="flex-row items-center justify-between bg-black/30 px-4 py-3">
@@ -27,24 +42,16 @@ const LaunchCard = ({ item }: { item: Launch }) => {
 
         {/* Contenido principal */}
         <View className="p-6">
-          {/* Encabezado con icono de cohete */}
-          <View className="mb-5 flex-row items-start">
-            <View
-              className={`mr-4 h-12 w-12 items-center justify-center rounded-full shadow-lg ${
-                item.success
-                  ? 'bg-gradient-to-br from-green-500 to-green-600'
-                  : 'bg-gradient-to-br from-red-500 to-red-600'
-              }`}>
-              <Text className="text-xl">🚀</Text>
-            </View>
-            <View className="flex-1">
-              <Text className="mb-2 text-xl font-bold leading-tight text-white" numberOfLines={2}>
-                {item.name}
+          {/* Encabezado con nombre de lanzamiento destacado */}
+          <View className="mb-5">
+            <Text className="mb-1 text-2xl font-bold text-white" numberOfLines={2}>
+              {item.name}
+            </Text>
+            <View className="flex-row items-center">
+              <View className="mr-2 h-2 w-2 rounded-full bg-blue-400" />
+              <Text className="text-sm font-medium text-blue-300">
+                {item?.rocket?.name} • Vuelo #{item.flight_number}
               </Text>
-              <View className="flex-row items-center">
-                <View className="mr-2 h-2 w-2 rounded-full bg-blue-400" />
-                <Text className="text-sm font-medium text-blue-300">{item.rocket}</Text>
-              </View>
             </View>
           </View>
 
@@ -60,23 +67,23 @@ const LaunchCard = ({ item }: { item: Launch }) => {
             </View>
           )}
 
-          {/* Información de cores */}
-          <View className="mb-4">
-            <Text className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-300">
-              ⚙️ CORES UTILIZADOS ({item.cores.length})
-            </Text>
-            <View className="flex-row flex-wrap">
-              {item.cores.map((core, index) => (
-                <View
-                  key={index}
-                  className="mb-2 mr-2 flex-row items-center rounded-full bg-gradient-to-r from-gray-600 to-gray-700 px-4 py-2 shadow-md">
-                  <View className="mr-2 h-2 w-2 rounded-full bg-orange-400" />
-                  <Text className="text-xs font-medium text-gray-100">
-                    {core.core || `Core ${index + 1}`}
-                  </Text>
-                </View>
-              ))}
-            </View>
+          {/* Información adicional */}
+          <View className="mb-5 flex-row flex-wrap gap-2">
+            {item.launchpad && (
+              <View className="rounded-full bg-gray-700/50 px-3 py-1">
+                <Text className="text-xs text-gray-300">🚀 {item.launchpad.name}</Text>
+              </View>
+            )}
+            {item.payloads.length > 0 && (
+              <View className="rounded-full bg-gray-700/50 px-3 py-1">
+                <Text className="text-xs text-gray-300">📦 {item.payloads.length} carga(s)</Text>
+              </View>
+            )}
+            {item.upcoming && (
+              <View className="rounded-full bg-yellow-500/20 px-3 py-1">
+                <Text className="text-xs text-yellow-300">⏳ PRÓXIMO LANZAMIENTO</Text>
+              </View>
+            )}
           </View>
 
           {/* Pie de carta con estadísticas rápidas */}

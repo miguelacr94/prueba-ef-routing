@@ -1,11 +1,10 @@
 import LaunchCard from 'components/launch/launch-card';
-import { Text, View, FlatList, Button } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import useNextLaunch from 'source/hooks/query/use-next-launch';
-import useLaunch from 'source/hooks/query/use-past-launch';
 import type { Launch } from 'source/types/launchTypes';
 
 const NextLaunchScreen = () => {
-  const { launchData, isLoadingLaunch, isLaunchError, launchError, refetch } = useNextLaunch();
+  const { launchData, isLoadingLaunch, isLaunchError, launchError } = useNextLaunch();
 
   if (isLoadingLaunch) {
     return (
@@ -28,7 +27,7 @@ const NextLaunchScreen = () => {
   if (!launchData || launchData.length === 0) {
     return (
       <View className="flex-1 items-center justify-center bg-gray-900">
-        <Text className="text-lg text-white">No hay datos de lanzamientos</Text>
+        <Text className="text-lg text-white">No hay datos de próximos lanzamientos</Text>
       </View>
     );
   }

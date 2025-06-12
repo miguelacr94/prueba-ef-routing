@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Launch } from '../../types/launchTypes';
 import { launchService } from '../../services/launch-service';
 
-const useNextLaunch = () => {
+const useLaunches = () => {
   const {
     isLoading: isLoadingLaunch,
     refetch,
@@ -10,10 +10,10 @@ const useNextLaunch = () => {
     error: launchError,
     data: launchData,
   } = useQuery<Launch[], Error>({
-    queryKey: ['get-next-launches'],
+    queryKey: ['get-all-launches'],
     queryFn: async () => {
       try {
-        const allLaunches = await launchService.getNextLaunches();
+        const allLaunches = await launchService.getAllLaunches();
         return allLaunches;
       } catch (error) {
         throw new Error(error instanceof Error ? error.message : 'Failed to fetch launches');
@@ -31,4 +31,4 @@ const useNextLaunch = () => {
   };
 };
 
-export default useNextLaunch;
+export default useLaunches;

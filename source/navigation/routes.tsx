@@ -1,9 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { View } from 'react-native';
-import { BottomTabNavigator } from './tab-navigator';
+import { BottomTabNavigator, SearchLaunchStack } from './tab-navigator';
 import { RootStackParamList } from '../types/navigationType';
 import SplashScreen from '../screens/splash-screen';
+import LaunchSearchScreen from 'source/screens/launch/search-screen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -27,11 +28,11 @@ const Routes = () => {
           component={BottomTabNavigator}
         />
 
-        {/* <Stack.Screen
-          name="LaunchPastScreen"
-          options={{ animation: "fade_from_bottom" }}
-          component={}
-        /> */}
+        <Stack.Screen
+          name="LaunchSearchScreen"
+          options={{ animation: 'fade_from_bottom' }}
+          component={SearchLaunchStack}
+        />
       </Stack.Navigator>
     </View>
   );
