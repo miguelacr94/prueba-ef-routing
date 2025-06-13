@@ -29,6 +29,12 @@ jobs:
       - name: Run linter
         run: npm run lint
 
+      - name: Check Prettier formatting
+        run: npx prettier --check "**/*.{js,jsx,ts,tsx,json}"
+
+      - name: Show Prettier differences
+        run: git diff --name-only
+
       # Descomenta si tienes tests configurados
       # - name: Run tests
       #   run: npm test
