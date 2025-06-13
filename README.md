@@ -103,4 +103,4 @@ https://drive.google.com/drive/folders/11uUy_3c5Aewb6cC6ctKl00vfAeqyOwn3?usp=dri
 
 
 Licencia
-MIT © 2023 [Miguel Contreras]
+MIT © 2025 Miguel Contreras
