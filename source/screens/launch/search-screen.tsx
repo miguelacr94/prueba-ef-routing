@@ -5,6 +5,9 @@ import useLaunches from 'source/hooks/query/use-launches';
 import type { Launch } from 'source/types/launchTypes';
 import { useLaunchSearch } from 'source/hooks/use-launches-search';
 import { SearchHeader } from 'components/launch/header-search-launches';
+import LoaderScreen from 'components/ui/loader-screen';
+import ErrorScreen from 'components/ui/error-screen';
+import EmptyStateScreen from 'components/ui/empity-state-screen';
 
 const SearchLaunchScreen = () => {
   const { launchData, isLoadingLaunch, isLaunchError, launchError } = useLaunches();
@@ -21,35 +24,19 @@ const SearchLaunchScreen = () => {
   } = useLaunchSearch(launchData || []);
 
   if (isLoadingLaunch) {
-    return (
-      <View className="flex-1 items-center justify-center bg-gray-900">
-        <Text className="text-lg text-white">Cargando lanzamientos...</Text>
-      </View>
-    );
+    return <LoaderScreen />;
   }
 
   if (isLaunchError) {
-    return (
-      <View className="flex-1 items-center justify-center bg-gray-900">
-        <Text className="text-lg text-red-500">
-          Error: {launchError?.message || 'Error al cargar los lanzamientos'}
-        </Text>
-      </View>
-    );
+    return <ErrorScreen />;
   }
 
   if (!launchData || launchData.length === 0) {
-    return (
-      <View className="flex-1 items-center justify-center bg-gray-900">
-        <Text className="text-lg text-white">No hay datos de lanzamientos</Text>
-      </View>
-    );
+    return <EmptyStateScreen />;
   }
-
   return (
     <View className="flex-1 bg-gray-900">
-      {/* Header fijo */}
-      <View className="px-4 pt-6 pb-2 bg-gray-900">
+      <View className="bg-gray-900 px-4 pb-2 pt-6">
         <SearchHeader
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -62,8 +49,7 @@ const SearchLaunchScreen = () => {
           totalResults={totalResults}
         />
       </View>
-      
-      {/* FlatList sin header */}
+
       <FlatList<Launch>
         data={filteredLaunches}
         renderItem={({ item }) => <LaunchCard item={item} />}

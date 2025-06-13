@@ -1,5 +1,7 @@
 import LaunchCard from 'components/launch/launch-card';
-import React from 'react';
+import EmptyStateScreen from 'components/ui/empity-state-screen';
+import ErrorScreen from 'components/ui/error-screen';
+import LoaderScreen from 'components/ui/loader-screen';
 import { Text, View, FlatList } from 'react-native';
 import useLaunch from 'source/hooks/query/use-past-launch';
 import type { Launch } from 'source/types/launchTypes';
@@ -8,29 +10,15 @@ const PastLaunchScreen = () => {
   const { launchData, isLoadingLaunch, isLaunchError, launchError } = useLaunch();
 
   if (isLoadingLaunch) {
-    return (
-      <View className="flex-1 items-center justify-center bg-gray-900">
-        <Text className="text-lg text-white">Cargando lanzamientos...</Text>
-      </View>
-    );
+    return <LoaderScreen />;
   }
 
   if (isLaunchError) {
-    return (
-      <View className="flex-1 items-center justify-center bg-gray-900">
-        <Text className="text-lg text-red-500">
-          Error: {launchError?.message || 'Error al cargar los lanzamientos'}
-        </Text>
-      </View>
-    );
+    return <ErrorScreen />;
   }
 
   if (!launchData || launchData.length === 0) {
-    return (
-      <View className="flex-1 items-center justify-center bg-gray-900">
-        <Text className="text-lg text-white">No hay datos de lanzamientos</Text>
-      </View>
-    );
+    return <EmptyStateScreen />;
   }
 
   return (

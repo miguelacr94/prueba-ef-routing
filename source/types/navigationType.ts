@@ -2,6 +2,7 @@ import { Launch } from './launchTypes';
 
 export type RootStackParamList = {
   SplashScreen: undefined;
+  LoginScreen:undefined;
   BaseHome: undefined;
   LaunchPastScreen: undefined;
   LaunchFutureScreen: undefined;
@@ -9,4 +10,5 @@ export type RootStackParamList = {
     LaunchData: Launch;
   };
   LaunchSearchScreen: undefined;
+
 };

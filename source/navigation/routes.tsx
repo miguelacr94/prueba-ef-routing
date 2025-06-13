@@ -1,10 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
 import { View } from 'react-native';
 import { BottomTabNavigator, SearchLaunchStack } from './tab-navigator';
 import { RootStackParamList } from '../types/navigationType';
 import SplashScreen from '../screens/splash-screen';
-import LaunchSearchScreen from 'source/screens/launch/search-screen';
+import LoginScreen from 'source/screens/auth/login.screen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -21,7 +20,11 @@ const Routes = () => {
           options={{ animation: 'fade_from_bottom' }}
           component={SplashScreen}
         />
-
+        <Stack.Screen
+          name="LoginScreen"
+          options={{ animation: 'fade_from_bottom' }}
+          component={LoginScreen}
+        />
         <Stack.Screen
           name="LaunchPastScreen"
           options={{ animation: 'fade_from_bottom' }}
