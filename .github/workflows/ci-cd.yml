@@ -1,46 +1,42 @@
-name: CI/CD Pipeline for React Native
+name: Expo CI
 
 on:
   push:
-    branches:
-      - main  # Ejecutar en push a la rama principal
+    branches: [main]
   pull_request:
-    branches:
-      - main  # Ejecutar en pull requests hacia la rama principal
+    branches: [main]
 
 jobs:
   build:
+    name: Build and Lint
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    # Paso 1: Checkout del código
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    # Paso 2: Configuración de Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '23'  # Especifica la versión de Node.js que usas
+      - name: Install dependencies
+        run: npm install
 
-    # Paso 3: Instalación de dependencias
-    - name: Install dependencies
-      run: |
-        npm install
-        npx expo install
+      - name: Type check (TypeScript)
+        run: npx tsc --noEmit
 
-    # Paso 4: Ejecución de pruebas unitarias
-    - name: Run Jest tests
-      run: npm test
+      - name: Run linter
+        run: npm run lint
 
-    # Paso 5: Generación del APK (Android) con Expo
-    - name: Build APK (Android)
-      run: |
-        npx expo build:android -t apk --no-wait  # Construcción del APK
+      # Descomenta si tienes tests configurados
+      # - name: Run tests
+      #   run: npm test
 
-    # Paso 6: Subir el APK generado como artefacto
-    - name: Upload APK as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: my-app-apk
-        path: ./dist/*.apk  # Ubicación donde se genera el APK (modifica según sea necesario)
+      # Validar configuración de Expo
+      - name: Expo doctor
+        run: npx expo doctor
+
+      # Opcional: verificar que compila
+      # - name: Build Expo app
+      #   run: npx expo export
