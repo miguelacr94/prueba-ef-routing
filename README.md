@@ -4,7 +4,7 @@ XSpace es una aplicación móvil desarrollada con React Native y Expo que permit
 Instalación
 Prerrequisitos:
 
-Node.js v18+
+Node.js v23+
 
 npm v9+
 
