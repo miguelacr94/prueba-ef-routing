@@ -36,13 +36,11 @@ const PastLaunchScreen = () => {
   return (
     <View className="flex-1 bg-gray-900">
       {/* Header fijo */}
-      <View className="px-4 pt-6 pb-2 bg-gray-900">
-        <Text className="text-3xl font-bold text-white">Historial de Lanzamientos</Text>
-        <Text className="mt-1 text-sm text-gray-400">
-          {launchData.length} misiones registradas
-        </Text>
+      <View className="bg-gray-900 px-4 pb-2 pt-6">
+        <Text className="text-3xl font-bold text-white">Historial de pasados lanzamientos</Text>
+        <Text className="mt-1 text-sm text-gray-400">{launchData.length} misiones registradas</Text>
       </View>
-      
+
       {/* FlatList sin header */}
       <FlatList<Launch>
         data={launchData}

@@ -81,7 +81,7 @@ const FilterOptionSheet = ({
   return (
     <>
       <TouchableOpacity style={styles.option} onPress={openSupportSheet}>
-        <Ionicons color={'#e25b24'} name="help-circle-outline" size={22} />
+        <Ionicons color={'white'} name="options" size={35} />
       </TouchableOpacity>
 
       <ActionSheet
@@ -130,7 +130,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 40,
-    backgroundColor: 'red',
   },
   optionText: {
     fontSize: 16,

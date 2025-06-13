@@ -40,7 +40,9 @@ const NextLaunchScreen = () => {
         keyExtractor={(item) => item.id}
         ListHeaderComponent={
           <View className="mb-6 px-4 pt-6">
-            <Text className="text-3xl font-bold text-white">Historial de Lanzamientos pasados</Text>
+            <Text className="text-3xl font-bold text-white">
+              Historial de próximos Lanzamientos{' '}
+            </Text>
             <Text className="mt-1 text-sm text-gray-400">
               {launchData.length} misiones registradas
             </Text>
