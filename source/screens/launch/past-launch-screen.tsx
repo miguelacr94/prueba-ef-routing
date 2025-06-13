@@ -7,7 +7,7 @@ import useLaunch from 'source/hooks/query/use-past-launch';
 import type { Launch } from 'source/types/launchTypes';
 
 const PastLaunchScreen = () => {
-  const { launchData, isLoadingLaunch, isLaunchError, launchError } = useLaunch();
+  const { launchData, isLoadingLaunch, isLaunchError } = useLaunch();
 
   if (isLoadingLaunch) {
     return <LoaderScreen />;
@@ -23,13 +23,12 @@ const PastLaunchScreen = () => {
 
   return (
     <View className="flex-1 bg-gray-900">
-      {/* Header fijo */}
+   
       <View className="bg-gray-900 px-4 pb-2 pt-6">
         <Text className="text-3xl font-bold text-white">Historial de pasados lanzamientos</Text>
         <Text className="mt-1 text-sm text-gray-400">{launchData.length} misiones registradas</Text>
       </View>
 
-      {/* FlatList sin header */}
       <FlatList<Launch>
         data={launchData}
         renderItem={({ item }) => <LaunchCard item={item} />}

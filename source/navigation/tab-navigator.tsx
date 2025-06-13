@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator();
 
 export function BottomTabNavigator() {
   const getTabBarVisibility = (route: any) => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? 'ClientHomeScreen';
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'LaunchPastScreen';
 
     if (routeName === 'LaunchDetailScreen') {
       return false;
