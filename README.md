@@ -75,9 +75,9 @@ Formik + Zod (Formularios)
 Estructura de carpetas:
 
 text
+components/  
 /src  
 ├── api/  
-├── components/  
 ├── screens/  
 ├── navigation/  
 ├── hooks/  
