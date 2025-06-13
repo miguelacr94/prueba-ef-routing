@@ -26,8 +26,14 @@ npm install
 Configurar variables de entorno (crear .env):
 
 text
-API_BASE_URL=tu_url_base_api  
-API_KEY=tu_api_key  
+API_URL=tu_url_base_api  
+
+
+Enlace de repositorio de API 
+https://github.com/miguelacr94/api-ef-rounting
+
+se recomienda trabajar con version 18 ya que parte de las librerias con las que fue desarrollada la api son versiones antiguas.
+
 
 
 Comandos útiles
@@ -89,6 +95,11 @@ Ejecutar pruebas:
 
 bash
 npm test  
+
+vista previa de caputuras y videos de App
+
+https://drive.google.com/drive/folders/11uUy_3c5Aewb6cC6ctKl00vfAeqyOwn3?usp=drive_link
+
 
 
 Licencia
