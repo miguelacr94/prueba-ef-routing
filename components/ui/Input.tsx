@@ -3,11 +3,13 @@ import { TextInput, TouchableOpacity, View, TextInputProps, Animated } from 'rea
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from 'react-native';
 
+type IoniconName = keyof typeof Ionicons.glyphMap;
+
 interface InputProps extends TextInputProps {
   label?: string;
   error?: string | null;
   touched?: boolean;
-  icon?: React.ReactNode | keyof typeof Ionicons.glyphMap;
+  icon?: React.ReactNode | IoniconName;
   iconPosition?: 'left' | 'right';
   showPasswordToggle?: boolean;
   className?: string;
@@ -44,7 +46,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
     const [isFocused, setIsFocused] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [hasValue, setHasValue] = useState(!!value);
-    
+
     // Animaciones
     const labelAnimation = useRef(new Animated.Value(value ? 1 : 0)).current;
     const borderAnimation = useRef(new Animated.Value(0)).current;
@@ -52,14 +54,14 @@ const Input = React.forwardRef<TextInput, InputProps>(
 
     const handleFocus = () => {
       setIsFocused(true);
-      
+
       // Animar label hacia arriba
       Animated.timing(labelAnimation, {
         toValue: 1,
         duration: 200,
         useNativeDriver: false,
       }).start();
-      
+
       // Animar borde
       Animated.timing(borderAnimation, {
         toValue: 1,
@@ -71,7 +73,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
     const handleBlurLocal = (e: any) => {
       setIsFocused(false);
       setHasValue(!!value);
-      
+
       // Animar label hacia abajo si no hay valor
       if (!value) {
         Animated.timing(labelAnimation, {
@@ -80,21 +82,21 @@ const Input = React.forwardRef<TextInput, InputProps>(
           useNativeDriver: false,
         }).start();
       }
-      
+
       // Animar borde
       Animated.timing(borderAnimation, {
         toValue: 0,
         duration: 200,
         useNativeDriver: false,
       }).start();
-      
+
       onBlur?.(e);
     };
 
     const handleChangeText = (text: string) => {
       setHasValue(!!text);
       onChangeText?.(text);
-      
+
       // Si hay error, hacer shake
       if (error && touched) {
         Animated.sequence([
@@ -151,14 +153,13 @@ const Input = React.forwardRef<TextInput, InputProps>(
       if (position === 'right' && showPasswordToggle && secureTextEntry) {
         return (
           <TouchableOpacity
-            className="absolute right-3 top-1/2 -translate-y-2.5 z-10"
+            className="absolute right-3 top-1/2 z-10 -translate-y-2.5"
             onPress={togglePasswordVisibility}
-            disabled={disabled}
-          >
-            <Ionicons 
-              name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'} 
-              size={currentSize.icon} 
-              color={disabled ? '#9ca3af' : isFocused ? '#3b82f6' : '#6b7280'} 
+            disabled={disabled}>
+            <Ionicons
+              name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+              size={currentSize.icon}
+              color={disabled ? '#9ca3af' : isFocused ? '#3b82f6' : '#6b7280'}
             />
           </TouchableOpacity>
         );
@@ -166,7 +167,8 @@ const Input = React.forwardRef<TextInput, InputProps>(
 
       if (React.isValidElement(icon)) {
         return (
-          <View className={`absolute ${position === 'left' ? 'left-3' : 'right-3'} top-1/2 -translate-y-2.5 z-10`}>
+          <View
+            className={`absolute ${position === 'left' ? 'left-3' : 'right-3'} top-1/2 z-10 -translate-y-2.5`}>
             {icon}
           </View>
         );
@@ -174,11 +176,12 @@ const Input = React.forwardRef<TextInput, InputProps>(
 
       if (typeof icon === 'string' && position === iconPosition) {
         return (
-          <View className={`absolute ${position === 'left' ? 'left-3' : 'right-3'} top-1/2 -translate-y-2.5 z-10`}>
-            <Ionicons 
-              name={icon} 
-              size={currentSize.icon} 
-              color={disabled ? '#9ca3af' : isFocused ? '#3b82f6' : '#6b7280'} 
+          <View
+            className={`absolute ${position === 'left' ? 'left-3' : 'right-3'} top-1/2 z-10 -translate-y-2.5`}>
+            <Ionicons
+              name={icon as IoniconName}
+              size={currentSize.icon}
+              color={disabled ? '#9ca3af' : isFocused ? '#3b82f6' : '#6b7280'}
             />
           </View>
         );
@@ -200,7 +203,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
         disabled ? 'opacity-50' : '',
         className,
       ];
-      
+
       return baseClasses.filter(Boolean).join(' ');
     };
 
@@ -223,11 +226,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
           baseClasses.push(
             'border-2',
             'bg-transparent',
-            error && touched 
-              ? 'border-red-500' 
-              : isFocused 
-                ? 'border-blue-500' 
-                : 'border-slate-600'
+            error && touched ? 'border-red-500' : isFocused ? 'border-blue-500' : 'border-slate-600'
           );
           break;
         case 'filled':
@@ -235,10 +234,10 @@ const Input = React.forwardRef<TextInput, InputProps>(
             'bg-slate-700/50',
             'border-2',
             'border-transparent',
-            error && touched 
-              ? 'border-red-500' 
-              : isFocused 
-                ? 'border-blue-500' 
+            error && touched
+              ? 'border-red-500'
+              : isFocused
+                ? 'border-blue-500'
                 : 'border-transparent'
           );
           break;
@@ -246,11 +245,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
           baseClasses.push(
             'bg-slate-700/50',
             'border',
-            error && touched 
-              ? 'border-red-500' 
-              : isFocused 
-                ? 'border-blue-500' 
-                : 'border-slate-600'
+            error && touched ? 'border-red-500' : isFocused ? 'border-blue-500' : 'border-slate-600'
           );
       }
 
@@ -268,12 +263,11 @@ const Input = React.forwardRef<TextInput, InputProps>(
     });
 
     return (
-      <Animated.View 
+      <Animated.View
         className="relative mb-4 w-full"
         style={{
           transform: [{ translateX: shakeAnimation }],
-        }}
-      >
+        }}>
         {/* Label flotante */}
         {label && (
           <Animated.View
@@ -283,8 +277,7 @@ const Input = React.forwardRef<TextInput, InputProps>(
                 inputRange: [0, 1],
                 outputRange: [size === 'lg' ? 16 : size === 'md' ? 12 : 8, -8],
               }),
-            }}
-          >
+            }}>
             <Animated.Text
               className="font-medium"
               style={{
@@ -296,13 +289,12 @@ const Input = React.forwardRef<TextInput, InputProps>(
                   inputRange: [0, 1],
                   outputRange: [
                     disabled ? '#9ca3af' : '#94a3b8',
-                    error && touched ? '#ef4444' : isFocused ? '#3b82f6' : '#e2e8f0'
+                    error && touched ? '#ef4444' : isFocused ? '#3b82f6' : '#e2e8f0',
                   ],
                 }),
-              }}
-            >
+              }}>
               {label}
-              {required && <Text className="text-red-500 ml-1">*</Text>}
+              {required && <Text className="ml-1 text-red-500">*</Text>}
             </Animated.Text>
           </Animated.View>
         )}
@@ -339,19 +331,13 @@ const Input = React.forwardRef<TextInput, InputProps>(
         </Animated.View>
 
         {/* Texto de ayuda */}
-        {helpText && !error && (
-          <Text className="mt-1 ml-1 text-xs text-slate-400">
-            {helpText}
-          </Text>
-        )}
+        {helpText && !error && <Text className="ml-1 mt-1 text-xs text-slate-400">{helpText}</Text>}
 
         {/* Mensaje de error */}
-        {error  && (
-          <View className="flex-row items-center mt-2 ml-1">
+        {error && (
+          <View className="ml-1 mt-2 flex-row items-center">
             <Ionicons name="alert-circle" size={12} color="#ef4444" />
-            <Text className="ml-1 text-xs text-red-500 font-medium">
-              {error}
-            </Text>
+            <Text className="ml-1 text-xs font-medium text-red-500">{error}</Text>
           </View>
         )}
       </Animated.View>
