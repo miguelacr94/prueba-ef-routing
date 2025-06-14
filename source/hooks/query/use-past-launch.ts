@@ -13,6 +13,7 @@ const usePastLaunch = () => {
     queryKey: ['get-past-launches'],
     queryFn: async () => {
       try {
+     
         const allLaunches = await launchService.getPastLaunches();
         return allLaunches;
       } catch (error) {

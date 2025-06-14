@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import { Text, View, Animated, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'source/types/navigationType';
 import { Ionicons } from '@expo/vector-icons';
+import { RootStackParamList } from '../types/navigationType';
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
 

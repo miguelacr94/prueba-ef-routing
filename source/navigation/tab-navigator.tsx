@@ -1,45 +1,164 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { Platform, Text, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import PastLaunchScreen from '../screens/launch/past-launch-screen';
-import { RootStackParamList } from '../types/navigationType';
-import NextLaunchScreen from 'source/screens/launch/next-launch-screen';
-import LaunchDetailScreen from 'source/screens/launch/launch-detail-screen';
-import BackScreenOption from 'components/ui/back-screen-option';
-import SearchOption from 'components/header/search-option';
-import Title from 'components/header/title';
-import LaunchSearchScreen from 'source/screens/launch/search-screen';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { RootStackParamList } from '../types/navigationType';
+
+// Screens
+import PastLaunchScreen from '../screens/launch/past-launch-screen';
+import NextLaunchScreen from '../screens/launch/next-launch-screen';
+import LaunchDetailScreen from '../screens/launch/launch-detail-screen';
+import SearchLaunchScreen from '../screens/launch/search-screen';
+
+// Components
+import SearchOption from '../components/header/search-option';
+import BackScreenOption from '../components/ui/back-screen-option';
+import Title from '../components/header/title';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
+// Configuración común de header
+const commonHeaderOptions = {
+  headerStyle: {
+    backgroundColor: '#1e293b',
+    height: Platform.OS === 'android' ? 80 : 120,
+    shadowColor: 'transparent',
+    borderBottomWidth: 1,
+    borderBottomColor: '#334155',
+  },
+  headerTintColor: '#e2e8f0',
+  headerTitleStyle: {
+    fontFamily: 'Poppins-medium',
+    color: '#ffffff',
+  },
+  cardStyle: {
+    backgroundColor: '#0f172a',
+  },
+};
+
+const PastLaunchStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      ...commonHeaderOptions,
+      animationTypeForReplace: 'push',
+      animation: 'slide_from_right',
+      gestureEnabled: true,
+      gestureDirection: 'horizontal',
+    }}>
+    <Stack.Screen
+      name="LaunchPastScreen"
+      component={PastLaunchScreen}
+      options={{
+        headerRight: () => (
+          <View className="px-6">
+            <SearchOption />
+          </View>
+        ),
+        headerLeft: () => (
+          <View className="px-6">
+            <Title />
+          </View>
+        ),
+        title: '',
+      }}
+    />
+    <Stack.Screen
+      name="LaunchDetailScreen"
+      component={LaunchDetailScreen as React.ComponentType}
+      options={{
+        title: 'Detalle de lanzamiento',
+        headerTitleStyle: { fontFamily: 'Poppins-medium', fontSize: 18 },
+        headerLeft: () => (
+          <View className="">
+            <BackScreenOption />
+          </View>
+        ),
+      }}
+    />
+    <Stack.Screen
+      name="LaunchSearchScreen"
+      component={SearchLaunchScreen}
+      options={{
+        title: 'Buscar lanzamientos',
+        headerTitleStyle: { fontFamily: 'Poppins-medium', fontSize: 18 },
+        headerLeft: () => (
+          <View className="">
+            <BackScreenOption />
+          </View>
+        ),
+      }}
+    />
+  </Stack.Navigator>
+);
+
+// Stack para Next Launches (similar al anterior)
+const NextLaunchStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      ...commonHeaderOptions,
+      animationTypeForReplace: 'push',
+      animation: 'slide_from_right',
+      gestureEnabled: true,
+      gestureDirection: 'horizontal',
+    }}>
+    <Stack.Screen
+      name="LaunchFutureScreen"
+      component={NextLaunchScreen}
+      options={{
+        headerRight: () => (
+          <View className="px-6">
+            <SearchOption />
+          </View>
+        ),
+        headerLeft: () => (
+          <View className="px-6">
+            <Title />
+          </View>
+        ),
+        title: '',
+      }}
+    />
+    <Stack.Screen
+      name="LaunchDetailScreen"
+      component={LaunchDetailScreen as React.ComponentType}
+      options={{
+        title: 'Detalle de lanzamiento',
+        headerTitleStyle: { fontFamily: 'Poppins-medium', fontSize: 18 },
+        headerLeft: () => (
+          <View className="">
+            <BackScreenOption />
+          </View>
+        ),
+      }}
+    />
+    <Stack.Screen
+      name="LaunchSearchScreen"
+      component={SearchLaunchScreen}
+      options={{
+        title: 'Buscar lanzamientos',
+        headerTitleStyle: { fontFamily: 'Poppins-medium', fontSize: 18 },
+        headerLeft: () => (
+          <View className="">
+            <BackScreenOption />
+          </View>
+        ),
+      }}
+    />
+  </Stack.Navigator>
+);
+
 export function BottomTabNavigator() {
   const getTabBarVisibility = (route: any) => {
     const routeName = getFocusedRouteNameFromRoute(route) ?? 'LaunchPastScreen';
-
-    if (routeName === 'LaunchDetailScreen') {
-      return false;
-    }
-    return true;
+    return routeName !== 'LaunchDetailScreen' && routeName !== 'LaunchSearchScreen';
   };
 
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        headerStyle: {
-          backgroundColor: '#1e293b',
-          height: Platform.OS === 'android' ? 80 : 120,
-          shadowColor: 'transparent',
-          borderBottomWidth: 1,
-          borderBottomColor: '#334155',
-        },
-        headerTitleStyle: {
-          fontFamily: 'Poppins-medium',
-          color: '#e2e8f0',
-        },
         tabBarStyle: {
           backgroundColor: '#0f172a',
           borderTopWidth: 1,
@@ -48,17 +167,9 @@ export function BottomTabNavigator() {
           paddingBottom: Platform.OS === 'ios' ? 20 : 5,
           height: Platform.OS === 'ios' ? 85 : 60,
         },
-        headerTintColor: '#e2e8f0',
         tabBarIcon: ({ focused }) => {
-          let iconName;
-
-          if (route.name === 'LaunchPastScreen') {
-            iconName = focused ? 'rocket' : 'rocket-outline';
-          } else if (route.name === 'LaunchFutureScreen') {
-            iconName = focused ? 'rocket' : 'rocket-outline';
-          }
-
-          const iconColor = focused ? '#ffffff' : '#94a3b8';
+          let iconName = 'rocket-outline';
+          if (focused) iconName = 'rocket';
 
           return (
             <View
@@ -66,13 +177,12 @@ export function BottomTabNavigator() {
                 ${focused ? 'bg-blue-600 shadow-lg shadow-blue-500/25' : 'bg-transparent'} 
                 items-center justify-center rounded-full
                 ${focused ? '-mt-2 h-14 w-14' : 'h-8 w-8'}
-                transition-all duration-200
               `}>
               <Ionicons
                 /* @ts-ignore */
                 name={iconName}
                 size={focused ? 22 : 18}
-                color={iconColor}
+                color={focused ? '#ffffff' : '#94a3b8'}
               />
             </View>
           );
@@ -87,203 +197,14 @@ export function BottomTabNavigator() {
       })}>
       <Tab.Screen
         name="LaunchPastScreen"
-        options={{
-          title: 'Pasados',
-          animation: 'fade',
-        }}
+        options={{ title: 'Pasados' }}
         component={PastLaunchStack}
       />
       <Tab.Screen
         name="LaunchFutureScreen"
-        options={{
-          title: 'Próximos',
-          animation: 'fade',
-        }}
+        options={{ title: 'Próximos' }}
         component={NextLaunchStack}
       />
     </Tab.Navigator>
   );
 }
-
-const PastLaunchStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerRight: () => null,
-        headerLeft: () => null,
-        title: '',
-        headerStyle: {
-          backgroundColor: '#1e293b',
-          height: Platform.OS === 'android' ? 80 : 120,
-          shadowColor: 'transparent',
-          borderBottomWidth: 1,
-          borderBottomColor: '#334155',
-        },
-        headerTintColor: '#e2e8f0',
-        headerTitleStyle: {
-          fontFamily: 'Poppins-medium',
-          color: '#ffffff',
-        },
-        cardStyle: {
-          backgroundColor: '#0f172a',
-        },
-      }}>
-      <Stack.Screen
-        name="LaunchPastScreen"
-        component={PastLaunchScreen}
-        options={{
-          headerRight: () => (
-            <View className="px-6">
-              <SearchOption />
-            </View>
-          ),
-          headerLeft: () => (
-            <View className="px-6">
-              <Title />
-            </View>
-          ),
-        }}
-      />
-      <Stack.Screen
-        options={{
-          title: 'Detalle de lanzamiento',
-          headerTitleStyle: {
-            fontFamily: 'Poppins-medium',
-            color: '#ffffff',
-            fontSize: 18,
-          },
-          headerLeft: () => (
-            <View className="pl-4">
-              <BackScreenOption />
-            </View>
-          ),
-        }}
-        name="LaunchDetailScreen"
-        component={LaunchDetailScreen as React.ComponentType}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const NextLaunchStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerRight: () => null,
-        headerLeft: () => null,
-        title: '',
-        headerStyle: {
-          backgroundColor: '#1e293b',
-          height: Platform.OS === 'android' ? 80 : 120,
-          shadowColor: 'transparent',
-          borderBottomWidth: 1,
-          borderBottomColor: '#334155',
-        },
-        headerTintColor: '#e2e8f0',
-        headerTitleStyle: {
-          fontFamily: 'Poppins-medium',
-          color: '#ffffff',
-        },
-        cardStyle: {
-          backgroundColor: '#0f172a',
-        },
-      }}>
-      <Stack.Screen
-        name="LaunchFutureScreen"
-        component={NextLaunchScreen}
-        options={{
-          headerRight: () => (
-            <View className="px-6">
-              <SearchOption />
-            </View>
-          ),
-          headerLeft: () => (
-            <View className="px-6">
-              <Title />
-            </View>
-          ),
-        }}
-      />
-      <Stack.Screen
-        options={{
-          title: 'Detalle de lanzamiento',
-          headerTitleStyle: {
-            fontFamily: 'Poppins-medium',
-            color: '#ffffff',
-            fontSize: 18,
-          },
-          headerLeft: () => (
-            <View className="pl-4">
-              <BackScreenOption />
-            </View>
-          ),
-        }}
-        name="LaunchDetailScreen"
-        component={LaunchDetailScreen as React.ComponentType}
-      />
-    </Stack.Navigator>
-  );
-};
-
-export const SearchLaunchStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerRight: () => null,
-        headerLeft: () => null,
-        headerStyle: {
-          backgroundColor: '#1e293b',
-          height: Platform.OS === 'android' ? 80 : 120,
-          shadowColor: 'transparent',
-          borderBottomWidth: 1,
-          borderBottomColor: '#334155',
-        },
-        headerTintColor: '#e2e8f0',
-        headerTitleStyle: {
-          fontFamily: 'Poppins-medium',
-          color: '#ffffff',
-        },
-        cardStyle: {
-          backgroundColor: '#0f172a',
-        },
-      }}>
-      <Stack.Screen
-        name="LaunchSearchScreen"
-        component={LaunchSearchScreen}
-        options={{
-          title: '',
-          headerRight: () => (
-            <View className="px-8">
-              <Title />
-            </View>
-          ),
-          headerLeft: () => (
-            <View className="pl-4">
-              <BackScreenOption />
-            </View>
-          ),
-        }}
-      />
-      <Stack.Screen
-        options={{
-          title: 'Detalle de lanzamiento',
-          headerTitleStyle: {
-            fontFamily: 'Poppins-medium',
-            color: '#ffffff',
-            fontSize: 18,
-          },
-          headerLeft: () => (
-            <View className="pl-4">
-              <BackScreenOption />
-            </View>
-          ),
-        }}
-        name="LaunchDetailScreen"
-        component={LaunchDetailScreen as React.ComponentType}
-      />
-    </Stack.Navigator>
-  );
-};
