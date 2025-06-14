@@ -1,10 +1,10 @@
-import axios from "axios";
-import { API_URL } from "../utils/constanst";
+import axios from 'axios';
+import { API_URL } from '../utils/constants';
 
 export const apiClient = axios.create({
   baseURL: API_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 

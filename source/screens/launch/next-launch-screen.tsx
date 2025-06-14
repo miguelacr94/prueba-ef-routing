@@ -1,10 +1,10 @@
-import LaunchCard from 'components/launch/launch-card';
-import EmptyStateScreen from 'components/ui/empity-state-screen';
-import ErrorScreen from 'components/ui/error-screen';
-import LoaderScreen from 'components/ui/loader-screen';
-import { Text, View, FlatList } from 'react-native';
-import useNextLaunch from 'source/hooks/query/use-next-launch';
-import type { Launch } from 'source/types/launchTypes';
+import type { Launch } from '../../types/launchTypes';
+import useNextLaunch from '../../hooks/query/use-next-launch';
+import LoaderScreen from '../../components/ui/loader-screen';
+import ErrorScreen from '../../components/ui/error-screen';
+import EmptyStateScreen from '../../components/ui/empity-state-screen';
+import { FlatList, Text, View } from 'react-native';
+import LaunchCard from '../../components/launch/launch-card';
 
 const NextLaunchScreen = () => {
   const { launchData, isLoadingLaunch, isLaunchError, launchError } = useNextLaunch();

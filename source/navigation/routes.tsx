@@ -1,9 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native';
-import { BottomTabNavigator, SearchLaunchStack } from './tab-navigator';
+import { BottomTabNavigator } from './tab-navigator';
 import { RootStackParamList } from '../types/navigationType';
 import SplashScreen from '../screens/splash-screen';
-import LoginScreen from 'source/screens/auth/login.screen';
+import LoginScreen from '../screens/auth/login.screen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -13,28 +13,17 @@ const Routes = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
+          animation: 'fade_from_bottom', // Animación por defecto
         }}
         initialRouteName="SplashScreen">
-        <Stack.Screen
-          name="SplashScreen"
-          options={{ animation: 'fade_from_bottom' }}
-          component={SplashScreen}
-        />
-        <Stack.Screen
-          name="LoginScreen"
-          options={{ animation: 'fade_from_bottom' }}
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          name="LaunchPastScreen"
-          options={{ animation: 'fade_from_bottom' }}
-          component={BottomTabNavigator}
-        />
-
-        <Stack.Screen
-          name="LaunchSearchScreen"
-          options={{ animation: 'fade_from_bottom' }}
-          component={SearchLaunchStack}
+        {/* Pantallas de autenticación */}
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        
+        {/* Main App */}
+        <Stack.Screen 
+          name="BaseTabHome" 
+          component={BottomTabNavigator} 
         />
       </Stack.Navigator>
     </View>

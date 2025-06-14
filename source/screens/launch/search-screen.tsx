@@ -1,14 +1,12 @@
-import { View, FlatList } from 'react-native';
-import LaunchCard from 'components/launch/launch-card';
-import { Text } from 'react-native';
-import useLaunches from 'source/hooks/query/use-launches';
-import type { Launch } from 'source/types/launchTypes';
-import { useLaunchSearch } from 'source/hooks/use-launches-search';
-import { SearchHeader } from 'components/launch/header-search-launches';
-import LoaderScreen from 'components/ui/loader-screen';
-import ErrorScreen from 'components/ui/error-screen';
-import EmptyStateScreen from 'components/ui/empity-state-screen';
-
+import { View, FlatList, Text } from 'react-native';
+import { useLaunchSearch } from '../../hooks/use-launches-search';
+import LoaderScreen from '../../components/ui/loader-screen';
+import ErrorScreen from '../../components/ui/error-screen';
+import EmptyStateScreen from '../../components/ui/empity-state-screen';
+import { SearchHeader } from '../../components/launch/header-search-launches';
+import LaunchCard from '../../components/launch/launch-card';
+import type { Launch } from '../../types/launchTypes';
+import useLaunches from '../../hooks/query/use-launches';
 const SearchLaunchScreen = () => {
   const { launchData, isLoadingLaunch, isLaunchError, launchError } = useLaunches();
   const {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, ScrollView, StatusBar } from 'react-native';
-import { Launch } from 'source/types/launchTypes';
 import { RouteProp } from '@react-navigation/native';
+import { Launch } from '../../types/launchTypes';
 
 type RootStackParamList = {
   LaunchDetailScreen: { launchData: Launch };

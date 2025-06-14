@@ -3,9 +3,10 @@ import { Launch } from '../types/launchTypes';
 
 export const launchService = {
   getPastLaunches: async (): Promise<Launch[]> => {
+    console.log('datasdsd');
     try {
       const response = await apiClient.get<Launch[]>('/launches/past');
-      console.log(response.data);
+   console.log('res', response);
       return response.data;
     } catch (error: any) {
       if (error.response) {
@@ -15,6 +16,7 @@ export const launchService = {
           error.response.data?.message ||
           error.response.statusText ||
           `Request failed with status code ${error.response.status}`;
+        console.log('data', errorMessage);
         throw new Error(errorMessage);
       } else if (error.request) {
         throw new Error('No response received from server');

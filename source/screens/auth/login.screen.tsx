@@ -6,16 +6,19 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import { Formik } from 'formik';
-import Input from 'components/ui/Input';
-import ButtonUi from 'components/ui/buttom';
+
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'source/types/navigationType';
+
 import { Ionicons } from '@expo/vector-icons';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
+import { RootStackParamList } from '../../types/navigationType';
+import Input from '../../components/ui/Input';
+import ButtonUi from '../../components/ui/buttom';
 
 interface LoginProps {
   email: string;
@@ -48,7 +51,7 @@ const LoginScreen = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      navigation.navigate('LaunchPastScreen');
+      navigation.navigate('BaseTabHome');
     }, 2000);
   };
 
@@ -154,6 +157,7 @@ const LoginScreen = () => {
                       disabled={isLoading}
                       onPress={() => handleSubmit()}
                     />
+                    {/* <Button title="dsd" onPress={()=>handleSubmit()} /> */}
                   </View>
                 </View>
               )}
