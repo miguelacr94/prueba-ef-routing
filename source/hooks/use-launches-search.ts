@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import type { Launch } from 'source/types/launchTypes';
+import { Launch } from '../types/launchTypes';
 
 export const useLaunchSearch = (launches: Launch[]) => {
   const [searchTerm, setSearchTerm] = useState('');

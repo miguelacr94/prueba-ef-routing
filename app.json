@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "e-help-app",
-    "slug": "e-help-app",
+    "name": "mi-app",
+    "slug": "mi-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,14 +20,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.miguelacr94.ehelpapp"
+      "edgeToEdgeEnabled": true,
+      "package": "com.miguelacr94.miapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "48cd59e1-a340-44b3-a27f-10ccebc9c7f6"
+        "projectId": "8d6966bc-0dfc-46c4-a217-2b82755aa23f"
       }
     }
   }

@@ -1,0 +1,44 @@
+name: CI/CD Pipeline for Expo App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '23.x'
+      - run: npm install
+      - run: npm test  # Ejecuta Jest (asegúrate de tener el script "test" en package.json)
+
+  build-and-deploy:
+    needs: test  # Depende de que las pruebas pasen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '23.x'
+      
+      # Instalar dependencias y Expo CLI
+      - run: npm install
+      - run: npm install -g expo-cli
+      
+      # Login en Expo (usa secrets para el token)
+      - run: expo login -u ${{ miguelacr94@gmail.com }} -p ${{ Cun3136631836 }}
+      
+      # Build para Android (usando EAS)
+      - run: npx eas-cli build --platform android --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      
+      # Opcional: Subir a Expo (EAS Update)
+      - run: npx eas-cli update --branch production --message "GitHub Actions Deployment"
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
