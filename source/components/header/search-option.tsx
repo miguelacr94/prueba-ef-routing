@@ -2,7 +2,7 @@ import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'source/types/navigationType';
+import { RootStackParamList } from '../../types/navigationType';
 const SearchOption = ({ size = 24, variant = 'default', disabled = false, className = '' }) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   navigator = useNavigation();
@@ -11,6 +11,7 @@ const SearchOption = ({ size = 24, variant = 'default', disabled = false, classN
 
   return (
     <TouchableOpacity
+      testID="search-button"
       onPress={handleGoToLaunchSearch}
       className={`${className} ${
         disabled ? 'opacity-50' : 'active:scale-95'

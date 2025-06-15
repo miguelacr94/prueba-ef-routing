@@ -1,6 +1,6 @@
-import FilterOptionSheet from 'components/header/filter-options';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
-import { FilterOption, SearchHeaderProps } from 'source/types/filtesTypes';
+import { SearchHeaderProps } from '../../types/filtesTypes';
+import FilterOptionSheet from '../header/filter-options';
 
 export const SearchHeader = ({
   searchTerm,
@@ -24,7 +24,7 @@ export const SearchHeader = ({
             <TextInput
               className="
         shadow-inner h-14 w-full rounded-2xl border border-slate-700/50 bg-slate-800/80 px-5
-        pr-12 text-base text-white
+        pr-12 text-base text-white 
         placeholder:text-slate-400
       "
               placeholder="🚀 Buscar lanzamientos..."

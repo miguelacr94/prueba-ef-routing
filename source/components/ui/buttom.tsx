@@ -1,16 +1,6 @@
 import { Fontisto, Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import {
-  Animated,
-  Text,
-  TouchableOpacity,
-  View,
-  ActivityIndicator,
-} from 'react-native';
-
-// Crear componentes animados
-const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons);
-const AnimatedFontisto = Animated.createAnimatedComponent(Fontisto);
+import { Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 
 interface ButtonUiProps {
   title: string;
@@ -18,13 +8,14 @@ interface ButtonUiProps {
   disabled?: boolean;
   icon?: string;
   type?: 'ionicIcon' | 'fontIsto';
-  width?: number;
+  width?: 'full' | 'auto' | number;
   top?: number;
   backgroundColor?: string;
   iconSize?: number;
   isLoading?: boolean;
   variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'outline';
   size?: 'sm' | 'md' | 'lg';
+  className?: string;
 }
 
 const ButtonUi = ({
@@ -35,15 +26,17 @@ const ButtonUi = ({
   type = 'ionicIcon',
   top = 20,
   backgroundColor,
-  iconSize = 20,
+  iconSize,
   isLoading = false,
   variant = 'primary',
   size = 'md',
+  width = 'full',
+  className = '',
 }: ButtonUiProps) => {
   // Configuración de variantes
   const getVariantClasses = () => {
-    const baseClasses = 'rounded-2xl shadow-lg active:scale-95 transition-all duration-200';
-    
+    const baseClasses = 'rounded-2xl shadow-lg active:opacity-80';
+
     switch (variant) {
       case 'primary':
         return `${baseClasses} bg-blue-600 shadow-blue-500/30`;
@@ -74,16 +67,18 @@ const ButtonUi = ({
     }
   };
 
-  const getTextSize = () => {
+  const getTextClasses = () => {
+    const textColor = variant === 'outline' ? 'text-blue-600' : 'text-white';
+
     switch (size) {
       case 'sm':
-        return 'text-sm';
+        return `text-sm ${textColor}`;
       case 'md':
-        return 'text-base';
+        return `text-base ${textColor}`;
       case 'lg':
-        return 'text-lg';
+        return `text-lg ${textColor}`;
       default:
-        return 'text-base';
+        return `text-base ${textColor}`;
     }
   };
 
@@ -103,21 +98,18 @@ const ButtonUi = ({
   // Renderizar icono
   const renderIcon = () => {
     const iconColor = variant === 'outline' ? '#2563eb' : '#ffffff';
-    const currentIconSize = getIconSize();
+    const size = getIconSize();
 
     if (type === 'ionicIcon' && icon) {
-      //@ts-ignore
-      return <AnimatedIonicons name={icon} size={currentIconSize} color={iconColor} />;
+      return <Ionicons name={icon as any} size={size} color={iconColor} />;
     } else if (type === 'fontIsto' && icon) {
-      //@ts-ignore
-      return <AnimatedFontisto name={icon} size={currentIconSize} color={iconColor} />;
+      return <Fontisto name={icon as any} size={size} color={iconColor} />;
     }
     return null;
   };
 
-  const textColor = variant === 'outline' ? 'text-blue-600' : 'text-white';
-  const customStyle = backgroundColor ? { backgroundColor } : {};
-  const topMargin = `mt-[${top}px]`;
+  const widthClass = width === 'full' ? 'w-full' : width === 'auto' ? 'w-auto' : '';
+  const widthStyle = typeof width === 'number' ? { width } : {};
 
   return (
     <TouchableOpacity
@@ -126,45 +118,31 @@ const ButtonUi = ({
       disabled={disabled || isLoading}
       accessibilityLabel={title}
       className={`
-        w-full
+        ${widthClass}
         ${getVariantClasses()}
         ${getSizeClasses()}
-        ${topMargin}
-        justify-center
+        mt-[${top}px]
         items-center
-        ${disabled || isLoading ? 'opacity-50' : 'opacity-100'}
+        justify-center
+        ${disabled || isLoading ? 'opacity-60' : 'opacity-100'}
+        ${className}
       `}
-      style={customStyle}
-    >
-      {/* Efecto de gradiente sutil */}
-      <View className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent rounded-2xl" />
-      
-      <View className="flex-row justify-center items-center space-x-2">
-        {icon && !isLoading && renderIcon()}
-        
-        <View className="flex-row justify-center items-center">
-          {isLoading ? (
-            <View className="flex-row items-center space-x-2">
-              <ActivityIndicator 
-                color={variant === 'outline' ? '#2563eb' : '#ffffff'} 
-                size={size === 'sm' ? 'small' : 'small'}
-              />
-              {title && (
-                <Text className={`${getTextSize()} ${textColor} font-semibold`}>
-                  {title}
-                </Text>
-              )}
-            </View>
-          ) : (
-            <Text className={`${getTextSize()} ${textColor} font-semibold text-center`}>
-              {title}
-            </Text>
-          )}
-        </View>
-      </View>
+      style={[widthStyle, backgroundColor ? { backgroundColor } : {}]}>
+      <View className="flex-row items-center space-x-2">
+        {icon && !isLoading && <View className="mr-2">{renderIcon()}</View>}
 
-      {/* Efecto de brillo en hover/press */}
-      <View className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 active:opacity-100 transition-opacity duration-150" />
+        {isLoading ? (
+          <View className="flex-row items-center space-x-2">
+            <ActivityIndicator
+              color={variant === 'outline' ? '#2563eb' : '#ffffff'}
+              size={size === 'sm' ? 'small' : 'small'}
+            />
+            {title && <Text className={`${getTextClasses()} font-semibold`}>{title}</Text>}
+          </View>
+        ) : (
+          <Text className={`${getTextClasses()} font-semibold`}>{title}</Text>
+        )}
+      </View>
     </TouchableOpacity>
   );
 };

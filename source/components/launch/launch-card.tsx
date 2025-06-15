@@ -1,8 +1,8 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { Launch } from 'source/types/launchTypes';
-import { RootStackParamList } from 'source/types/navigationType';
+import { Launch } from '../../types/launchTypes';
+import { RootStackParamList } from '../../types/navigationType';
 
 const LaunchCard = ({ item }: { item: Launch }) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();

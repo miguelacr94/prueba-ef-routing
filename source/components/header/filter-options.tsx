@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
 import { TouchableOpacity, View, Text, Pressable } from 'react-native';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
-import { FilterOption, SearchHeaderProps } from 'source/types/filtesTypes';
+import { FilterOption, SearchHeaderProps } from '../../types/filtesTypes';
 
 const FilterOptionSheet = ({
   statusFilter,
@@ -70,6 +70,7 @@ const FilterOptionSheet = ({
 
           return (
             <Pressable
+              testID={`filter-${option.value}`}
               key={option.value}
               onPress={() => handleFilterSelection(option, setter, variant)}
               className={`
@@ -128,6 +129,7 @@ const FilterOptionSheet = ({
     <>
       {/* Filter Button with Badge */}
       <TouchableOpacity
+        testID="filter-button"
         onPress={openFilterSheet}
         className="relative h-10 w-10 flex-row items-center justify-center rounded-xl border border-slate-700/60 bg-slate-800/80 active:bg-slate-700/90"
         style={{
@@ -218,6 +220,7 @@ const FilterOptionSheet = ({
           {activeFiltersCount > 0 && (
             <View className="mt-8 border-t border-slate-700/60 pt-6">
               <TouchableOpacity
+               testID="reset-filters-button"
                 onPress={() => {
                   setStatusFilter('all');
                   setSortOrder('newest');
