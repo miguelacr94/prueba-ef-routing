@@ -1,10 +1,10 @@
 Descripción
-XSpace es una aplicación móvil desarrollada con React Native y Expo que permite [breve descripción de la funcionalidad principal]. Desarrollada con un stack moderno para garantizar rendimiento y mantenibilidad.
+XSpace es una aplicación móvil desarrollada con React Native y Expo que permite previsualizar por medio de consultas los lanzamientos pasados y proxismos a lanzarse, al igual que permite realizar una vista detallada de cada lanzamiento, que cohete y en que plataforma fue lanzada y adicional si fueron exitosos o fallidos. Desarrollada con un stack moderno para garantizar rendimiento y mantenibilidad.
 
 Instalación
 Prerrequisitos:
 
-Node.js v18+
+Node.js v23+
 
 npm v9+
 
@@ -13,9 +13,7 @@ Expo CLI (npm install -g expo-cli)
 Clonar repositorio:
 
 bash
-git clone [repo-url] && cd xspace-app  
-
-
+git clone https://github.com/miguelacr94/prueba-ef-routing && cd xspace-app  
 
 Instalar dependencias:
 
@@ -26,8 +24,16 @@ npm install
 Configurar variables de entorno (crear .env):
 
 text
-API_BASE_URL=tu_url_base_api  
-API_KEY=tu_api_key  
+API_URL=tu_url_base_api  
+
+
+Enlace de repositorio de API 
+bash
+git clone https://github.com/miguelacr94/api-ef-rounting && cd miguel 
+
+
+se recomienda trabajar con version 18 ya que parte de las librerias con las que fue desarrollada la api son versiones antiguas.
+
 
 
 Comandos útiles
@@ -69,9 +75,9 @@ Formik + Zod (Formularios)
 Estructura de carpetas:
 
 text
+components/  
 /src  
 ├── api/  
-├── components/  
 ├── screens/  
 ├── navigation/  
 ├── hooks/  
@@ -85,11 +91,16 @@ Instalar dependencias:
 
 bash
 npm install --save-dev jest @testing-library/react-native  
-Ejecutar pruebas:
+Ejecutar pruebas: por el momento no existe una version funcional para esta version de react
 
 bash
 npm test  
 
+vista previa de caputuras y videos de App
+
+https://drive.google.com/drive/folders/11uUy_3c5Aewb6cC6ctKl00vfAeqyOwn3?usp=drive_link
+
+
 
 Licencia
-MIT © 2023 [Miguel Contreras]
+MIT © 2025 Miguel Contreras
